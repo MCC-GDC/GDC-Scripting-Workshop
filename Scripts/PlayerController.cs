@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.LowLevelPhysics2D;
@@ -19,21 +20,28 @@ public class PlayerController : MonoBehaviour
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
         Animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
 
         //Bind Animator isJumping and isRunning to movement;
 
-
+        moveSpeed *= 100;
+        
+        jumpForce *= 100;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ( jumpAction.WasPressedThisFrame() )
+        var moveValue = moveAction.ReadValue<Vector2>();
+
+        if ( jumpAction.WasPressedThisFrame() || (moveAction.WasPressedThisFrame() && moveValue.y > 0) )
         {
             Animator.SetBool("IsJumping", true);
+            rb.AddForceY(jumpForce);
+            Debug.Log("Jump");
         }
 
-        var moveValue = moveAction.ReadValue<Vector2>();
+        
 
         if(moveValue.x < 0)
         {
@@ -44,4 +52,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Terrain")
+        {
+            if (Animator.GetBool("IsJumping"))
+                Animator.SetBool("IsJumping", false);
+        }
+    }
 }
