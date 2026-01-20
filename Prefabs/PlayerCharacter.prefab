@@ -110,7 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 1
   maxSpeed: 5
-  jumpForce: 3
+  jumpForce: 2
 --- !u!95 &5540857064353454216
 Animator:
   serializedVersion: 7

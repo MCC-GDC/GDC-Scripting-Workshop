@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.LowLevelPhysics2D;
-
 public class PlayerController : MonoBehaviour
 {
     private InputAction moveAction;
@@ -24,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
         //Bind Animator isJumping and isRunning to movement;
 
-        moveSpeed *= 100;
+        moveSpeed *= 20;
         
         jumpForce *= 100;
     }
@@ -33,18 +32,17 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         var moveValue = moveAction.ReadValue<Vector2>();
-
-        if ( jumpAction.WasPressedThisFrame() || (moveAction.WasPressedThisFrame() && moveValue.y > 0) )
+        
+        if ( jumpAction.WasPressedThisFrame() )
         {
             Animator.SetBool("IsJumping", true);
             rb.AddForceY(jumpForce);
             Debug.Log("Jump");
         }
 
-        
-
-        if(moveValue.x < 0)
+        if(moveValue.x != Vector2.zero.x)
         {
+            Debug.Log($"Move Value: {moveValue}");
             if(rb.totalForce.x + (moveValue.x * moveSpeed) < maxSpeed)
                 rb.AddForceX(moveValue.x * moveSpeed);
             else if(rb.totalForce.x > maxSpeed)
