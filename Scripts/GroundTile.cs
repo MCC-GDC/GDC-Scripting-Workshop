@@ -8,6 +8,7 @@ public class GroundTile : Tile
     new void Start()
     {
         base.Start();
+        gameObject.tag = "Terrain";
     }
 
     // Update is called once per frame
