@@ -33,25 +33,8 @@ public class PlayerController : MonoBehaviour
             if (!Animator.GetBool("IsJumping"))
             {
                 Animator.SetBool("IsJumping", true);
-                rb.AddForceY(jumpForce);
             }
-        }
-
-        if (moveValue.x != Vector2.zero.x)
-        {
-            if (rb.totalForce.x + (moveValue.x * moveSpeed) < maxSpeed)
-                rb.linearVelocityX = moveValue.x * moveSpeed;
-            
-        }
-
-        if (rb.linearVelocityX < 0)
-        {
-            Sprite.flipX = true;
-        }
-        else
-        {
-            Sprite.flipX = false;
-        }
+        }  
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
